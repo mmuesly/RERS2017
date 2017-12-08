@@ -56,7 +56,8 @@ public class ProblemSUL implements SUL<String, String> {
     public static Problem newProblem(int number) throws FileNotFoundException {
         try {
             final Class<Problem> clazz = (Class<Problem>) Class.forName("nl.utwente.fmt.rers.problems.seq.Problem" + number);
-            return clazz.getConstructor().newInstance();
+            final Problem problem = clazz.getConstructor().newInstance();
+            return problem;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
             throw new FileNotFoundException(ex.toString());
         }
@@ -65,7 +66,6 @@ public class ProblemSUL implements SUL<String, String> {
     /**
      * A list of inputs applied. That is cleared after {@link #post()} is called.
      */
-    @Getter
     private List<String> inputs = new ArrayList();
 
     @Override
@@ -112,6 +112,10 @@ public class ProblemSUL implements SUL<String, String> {
         final String output = problem.getOutput();
         if (output == null) return "";
         else return output;
+    }
+
+    public String[] getInputs() {
+        return problem.getInputs();
     }
 
     @Override
