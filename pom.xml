@@ -13,75 +13,11 @@
             <artifactId>commons-cli</artifactId>
             <version>1.4</version>
         </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-api</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-parallelism</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>nl.utwente.fmt</groupId>
-            <artifactId>RERS-2017-problems-seq</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-api</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-statistics</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-membership-oracles</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-equivalence-oracles</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-adt</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-dhc</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-discrimination-tree</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-kearns-vazirani</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-lstar-generic</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-ttt</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-black-box-oracles</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
+       <dependency>
+            <groupId>de.learnlib.distribution</groupId>
+            <artifactId>learnlib-distribution</artifactId>
+            <version>0.14.0-SNAPSHOT</version>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -89,19 +25,21 @@
             <version>1.6.1</version>
         </dependency>
         <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-emptiness-oracles</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
+            <groupId>nl.utwente.fmt</groupId>
+            <artifactId>RERS-2017-problems-seq</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-membership-oracles</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
+            <groupId>net.automatalib.distribution</groupId>
+            <artifactId>automata-distribution</artifactId>
+            <version>0.8.0-SNAPSHOT</version>
+            <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>de.learnlib</groupId>
-            <artifactId>learnlib-inclusion-oracles</artifactId>
-            <version>0.12.1-SNAPSHOT</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.20</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
     <properties>

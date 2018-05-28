@@ -1,9 +1,9 @@
 package nl.utwente.fmt.rers;
 
+import de.learnlib.api.exception.ModelCheckingException;
 import de.learnlib.api.logging.LearnLogger;
 import de.learnlib.api.modelchecking.counterexample.Lasso.MealyLasso;
 import de.learnlib.api.modelchecking.modelchecker.ModelChecker.MealyModelCheckerLasso;
-import de.learnlib.api.modelchecking.modelchecker.ModelCheckingException;
 import de.learnlib.api.oracle.BlackBoxOracle.MealyBlackBoxProperty;
 import de.learnlib.api.oracle.EmptinessOracle.MealyEmptinessOracle;
 import de.learnlib.api.query.DefaultQuery;

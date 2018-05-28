@@ -5,10 +5,12 @@ import de.learnlib.algorithms.adt.learner.ADTLearnerBuilder;
 import de.learnlib.algorithms.dhc.mealy.MealyDHC;
 import de.learnlib.algorithms.discriminationtree.mealy.DTLearnerMealyBuilder;
 import de.learnlib.algorithms.kv.mealy.KearnsVaziraniMealyBuilder;
-import de.learnlib.algorithms.lstargeneric.mealy.ExtensibleLStarMealyBuilder;
+import de.learnlib.algorithms.lstar.mealy.ExtensibleLStarMealyBuilder;
+
 import de.learnlib.algorithms.malerpnueli.MalerPnueliMealyBuilder;
 import de.learnlib.algorithms.rivestschapire.RivestSchapireMealyBuilder;
 import de.learnlib.algorithms.ttt.mealy.TTTLearnerMealyBuilder;
+import de.learnlib.api.ObservableSUL;
 import de.learnlib.api.SUL;
 import de.learnlib.api.algorithm.LearningAlgorithm.MealyLearner;
 import de.learnlib.api.logging.LearnLogger;
@@ -20,27 +22,29 @@ import de.learnlib.api.oracle.EmptinessOracle.MealyEmptinessOracle;
 import de.learnlib.api.oracle.EmptinessOracle.MealyLassoEmptinessOracle;
 import de.learnlib.api.oracle.EquivalenceOracle.MealyEquivalenceOracle;
 import de.learnlib.api.oracle.InclusionOracle.MealyInclusionOracle;
-import de.learnlib.api.oracle.MembershipOracle.MealyMembershipOracle;
+import de.learnlib.api.oracle.MembershipOracle;
 import de.learnlib.api.oracle.SymbolQueryOracle;
 import de.learnlib.filter.statistic.sul.ResetCounterSUL;
 import de.learnlib.filter.statistic.sul.SymbolCounterSUL;
+import de.learnlib.filter.statistic.sul.ResetCounterObservableSUL;
+import de.learnlib.filter.statistic.sul.SymbolCounterObservableSUL;
 import de.learnlib.modelchecking.modelchecker.LTSminLTLAlternatingBuilder;
 import de.learnlib.oracle.blackbox.CExFirstBBOracle.CExFirstMealyBBOracle;
 import de.learnlib.oracle.blackbox.DisproveFirstBBOracle.DisproveFirstMealyBBOracle;
 import de.learnlib.oracle.blackbox.ModelCheckingBBProperty.MealyBBPropertyMealyLasso;
-import de.learnlib.oracle.emptiness.BreadthFirstEmptinessOracle.MealyBreadthFirstEmptinessOracle;
-import de.learnlib.oracle.emptiness.LassoAutomatonEmptinessOracle.MealyLassoMealyEmptinessOracle;
+import de.learnlib.oracle.emptiness.AbstractBreadthFirstEmptinessOracle.MealyBreadthFirstEmptinessOracle;
+import de.learnlib.oracle.emptiness.AbstractLassoAutomatonEmptinessOracle.MealyLassoMealyEmptinessOracle;
 import de.learnlib.oracle.equivalence.EQOracleChain.MealyEQOracleChain;
 import de.learnlib.oracle.equivalence.RandomWordsEQOracle.MealyRandomWordsEQOracle;
 import de.learnlib.oracle.equivalence.WpMethodEQOracle.MealyWpMethodEQOracle;
-import de.learnlib.oracle.inclusion.BreadthFirstInclusionOracle.MealyBreadthFirstInclusionOracle;
-import de.learnlib.oracle.membership.SULOmegaOracle;
+import de.learnlib.oracle.inclusion.AbstractBreadthFirstInclusionOracle.MealyBreadthFirstInclusionOracle;
+import de.learnlib.oracle.membership.AbstractSULOmegaOracle;
+
 import de.learnlib.oracle.membership.SULOracle;
 import de.learnlib.oracle.membership.SULSymbolQueryOracle;
 import de.learnlib.oracle.parallelism.ParallelOracle.PoolPolicy;
 import de.learnlib.oracle.parallelism.StaticParallelOracleBuilder;
 import de.learnlib.util.BBCExperiment.MealyBBCExperiment;
-import lombok.Getter;
 import net.automatalib.words.Alphabet;
 import net.automatalib.words.impl.Alphabets;
 import nl.utwente.fmt.rers.problems.seq.Problem;
@@ -49,6 +53,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.function.Function;
+import lombok.Getter;
 
 /**
  * A specialization of MealyBBCExperiment. That parses LTL formulae, and instantiates the proper classes
@@ -115,14 +120,14 @@ public class RERSExperiment extends MealyBBCExperiment<String, String> {
         final SULOracle learnOracle = new SULOracle(learnSUL);
         final SymbolQueryOracle learnSymbolQueryOracle = new SULSymbolQueryOracle(learnSUL);
 
-        final SymbolCounterSUL eqSymbolCounterSUL = new SymbolCounterSUL("equivalence", problemSUL);
-        final ResetCounterSUL eqResetCounterSUL = new ResetCounterSUL("equivalence", eqSymbolCounterSUL);
+        final SymbolCounterObservableSUL eqSymbolCounterSUL = new SymbolCounterObservableSUL("equivalence", problemSUL);
+        final ResetCounterObservableSUL eqResetCounterSUL = new ResetCounterObservableSUL("equivalence", eqSymbolCounterSUL);
         final SUL eqSUL = eqResetCounterSUL;
         final SULOracle eqOracle = new SULOracle(eqSUL);
 
-        final SymbolCounterSUL emSymbolCounterSUL = new SymbolCounterSUL("emptiness", problemSUL);
-        final ResetCounterSUL emResetCounterSUL = new ResetCounterSUL("emptiness", emSymbolCounterSUL);
-        final SUL emSUL = emResetCounterSUL;
+        final SymbolCounterObservableSUL emSymbolCounterSUL = new SymbolCounterObservableSUL("emptiness", problemSUL);
+        final ResetCounterObservableSUL emResetCounterSUL = new ResetCounterObservableSUL("emptiness", emSymbolCounterSUL);
+        final ObservableSUL emSUL = emResetCounterSUL;
 
         final SymbolCounterSUL iSymbolCounterSUL = new SymbolCounterSUL("inclusion", problemSUL);
         final ResetCounterSUL iResetCounterSUL = new ResetCounterSUL("inclusion", iSymbolCounterSUL);
@@ -131,13 +136,14 @@ public class RERSExperiment extends MealyBBCExperiment<String, String> {
 
         final Alphabet alphabet = Alphabets.fromArray(problemSUL.getInputs());
 
-        final MealyMembershipOracle membershipOracle =
+        final MembershipOracle membershipOracle =
                 new StaticParallelOracleBuilder(Suppliers.ofInstance(eqOracle)).
                                     withDefaultNumInstances().
                                     withMinBatchSize(50000).
-                                    withPoolPolicy(PoolPolicy.FIXED).createMealy();
+                                    withPoolPolicy(PoolPolicy.FIXED).
+                                    create();
 
-        MealyEquivalenceOracle equivalenceOracle = new MealyWpMethodEQOracle(3, membershipOracle);
+        MealyEquivalenceOracle equivalenceOracle = new MealyWpMethodEQOracle(membershipOracle, 3);
         if (randomWords) {
             equivalenceOracle = new MealyEQOracleChain(
                     equivalenceOracle,
@@ -191,7 +197,7 @@ public class RERSExperiment extends MealyBBCExperiment<String, String> {
         final MealyEmptinessOracle emptinessOracle = new MealyBreadthFirstEmptinessOracle(1, new SULOracle(problemSUL));
 
         final MealyLassoEmptinessOracle lassoEmptinessOracle =
-                new MealyLassoMealyEmptinessOracle(SULOmegaOracle.newOracle(emSUL));
+                new MealyLassoMealyEmptinessOracle(AbstractSULOmegaOracle.newOracle(emSUL));
 
         final MealyInclusionOracle inclusionOracle = new MealyBreadthFirstInclusionOracle(1, iOracle);
 
